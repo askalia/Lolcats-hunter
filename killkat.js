@@ -4,8 +4,8 @@ var KillKat =
 {
 	init: 	function(){
 		
-     	//var cssLink = jq("<link rel='stylesheet' type='text/css' href='//sandbox.local/KillKat/css/killkat.css'>");
-     	//jq("head").append(cssLink); 
+     	var cssLink = jq("<link rel='stylesheet' type='text/css' href='//raw.githubusercontent.com/jorisgrouillet/killkat/master/css/killkat.css'>");
+     	jq("head").append(cssLink);
 
 		KillKat.initCollection();
 	},
@@ -83,7 +83,7 @@ var KillKat =
 	getClickEventFunction: function()
 	{
 		return function(e){
-			e.preventDefault();
+            e.preventDefault();
 			KillKat.handleTargetAppearance(this);
 			return false;
 		};
