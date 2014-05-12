@@ -3,22 +3,23 @@ var jq = null;
 var KillKat = 
 {
 	init: 	function(){
-		
-     	//var cssLink = jq("<link rel='stylesheet' type='text/css' href='//raw.githubusercontent.com/jorisgrouillet/killkat/master/css/killkat.css'>");
-     	//jq("head").append(cssLink);
 
-        var stylesheet = document.createElement('link');
-        stylesheet.href = '//raw.githubusercontent.com/jorisgrouillet/killkat/master/css/killkat.css';
-        stylesheet.rel = 'stylesheet';
-        stylesheet.type = 'text/css';
-        document.getElementsByTagName('head')[0].appendChild(stylesheet);
-
-		KillKat.initCollection();
+        KillKat.loadStaticFiles();
+        KillKat.initImgList();
 	},
 	listImgs: [],
 	IMG_MIN_WIDTH : 100,
 	IMG_MIN_HEIGHT : 100,
 	KILL_TAG: 'killkat-shot',
+
+    loadStaticFiles: function()
+    {
+        var stylesheet = document.createElement('link');
+        stylesheet.href = 'https://rawgit.com/jorisgrouillet/killkat/master/css/killkat.css';
+        stylesheet.rel = 'stylesheet';
+        stylesheet.type = 'text/css';
+        document.getElementsByTagName('head')[0].appendChild(stylesheet);
+    },
 
 	requirements: {
 		'min-dimensions' : function(img){ return ((img.width * img.height) > (KillKat.IMG_MIN_WIDTH * KillKat.IMG_MIN_HEIGHT)); },
@@ -43,7 +44,7 @@ var KillKat =
 	 	'opacity' : 1
 	 },
 
-	initCollection : function()
+	initImgList : function()
 	{
 		jq('img').each(
 			function(idx, domImg){
