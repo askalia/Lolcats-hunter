@@ -4,6 +4,7 @@ var KillKat =
 {
 	init: 	function(){
 		KillKat.loadStaticFiles();
+			alert('Ready to kill kitten !');
        	KillKat.initImgList();
         alert("Ready to kill katz !");
 	},
@@ -86,7 +87,7 @@ var KillKat =
 	{
 		var jqImg = jq(domImg);
         KillKat.setOverlay(jqImg);
-},
+	},
     setOverlay: function(jqImg)
     {
         var imgContainer = jqImg.closest('div');
