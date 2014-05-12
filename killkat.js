@@ -105,8 +105,8 @@ alert('sdfsdfsdf');
         if (! domOverlay.length)
         {
             domOverlay = jq('<div class="'+KillKat.OVERLAY_TAG+'" id="killkat-tag-'+KillKat.getImgIndex(jqImg)+'"></div>')
-                            .css({  'width' : imgContainer.innerWidth(),
-                                    'height' : imgContainer.innerHeight(),
+                            .css({  'width' : jqImg.innerWidth(),
+                                    'height' : jqImg.innerHeight(),
                                     'top' : imgContainer.offset().top,
                                     'left' : imgContainer.offset().left,
                                     'z-index': 1
