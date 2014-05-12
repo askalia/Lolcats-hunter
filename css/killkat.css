@@ -4,7 +4,7 @@
     float: left;
     opacity: .90;
     pointer-events:none;
-    background-size : 100%;
+    background-size :  100%;
     background-repeat: no-repeat;
     background-position: center center;
     background: url(https://rawgit.com/jorisgrouillet/killkat/master/img/bloodsplatter.png);
