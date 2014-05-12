@@ -3,7 +3,7 @@ var jq = null;
 var KillKat = 
 {
 	init: 	function(){
-
+alert('sdfsdfsdf');
         KillKat.loadStaticFiles();
         KillKat.initImgList();
 	},
