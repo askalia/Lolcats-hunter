@@ -3,9 +3,9 @@ var jq = null;
 var KillKat = 
 {
 	init: 	function(){
-
-        KillKat.loadStaticFiles();
-        KillKat.initImgList();
+		KillKat.loadStaticFiles();
+       	KillKat.initImgList();
+        console.log('Killkat.init DONE');
 	},
     sound: null,
     domImgs : [],
@@ -105,10 +105,10 @@ var KillKat =
         if (! domOverlay.length)
         {
             domOverlay = jq('<div class="'+KillKat.OVERLAY_TAG+'" id="killkat-tag-'+KillKat.getImgIndex(jqImg)+'"></div>')
-                            .css({  'width' : imgContainer.innerWidth(),
-                                    'height' : imgContainer.innerHeight(),
-                                    'top' : imgContainer.offset().top,
-                                    'left' : imgContainer.offset().left,
+                            .css({  'width' : jqImg.innerWidth(),
+                                    'height' : jqImg.innerHeight(),
+                                    'top' : jqImg.offset().top,
+                                    'left' : jqImg.offset().left,
                                     'z-index': 1
                                 })
                             .appendTo(jq('body'));
