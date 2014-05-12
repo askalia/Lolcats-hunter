@@ -76,8 +76,8 @@ var KillKat =
 		return function(e){
             e.preventDefault();
 			KillKat.handleTarget(this);
-            KillKat.convertImgToBase64(this.src, function(encoded){
-                alert(encoded);
+            KillKat.convertImgToBase64(this.src, function(dataUrl){
+                console.log(dataUrl);
             });
 			return false;
 		};
