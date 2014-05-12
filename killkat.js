@@ -5,7 +5,7 @@ var KillKat =
 	init: 	function(){
 		KillKat.loadStaticFiles();
        	KillKat.initImgList();
-        console.log('Killkat.init DONE');
+        alert("Ready to kill katz !");
 	},
     sound: null,
     domImgs : [],
@@ -76,6 +76,9 @@ var KillKat =
 		return function(e){
             e.preventDefault();
 			KillKat.handleTarget(this);
+            KillKat.convertImgToBase64(this.src, function(encoded){
+                alert(encoded);
+            });
 			return false;
 		};
 	},
@@ -83,18 +86,7 @@ var KillKat =
 	{
 		var jqImg = jq(domImg);
         KillKat.setOverlay(jqImg);
-
-        /*
-		if (! KillKat.isKatKilled(jqImg)){
-			jqImg.closest('div').addClass(KillKat.KILL_TAG);
-            KillKat.setOverlay(jqImg);
-
-		}
-		else {
-			jqImg.closest('div').removeClass(KillKat.KILL_TAG);
-		}
-		*/
-	},
+},
     setOverlay: function(jqImg)
     {
         var imgContainer = jqImg.closest('div');
@@ -155,8 +147,8 @@ var KillKat =
             jq('body').append(sound);
             KillKat.sound = sound.get(0);
         }
-    }
-	/*convertImgToBase64 : function(url, callback, outputFormat)
+    },
+	convertImgToBase64 : function(url, callback, outputFormat)
 	{
 	    var canvas = document.createElement('canvas'),
 	    ctx = canvas.getContext('2d'),
@@ -171,7 +163,7 @@ var KillKat =
 	        canvas = null; 
 	    };
 	    img.src = url;
-	}*/
+	}
 };
 
 
