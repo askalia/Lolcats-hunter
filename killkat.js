@@ -3,10 +3,11 @@ var jq = null;
 var KillKat = 
 {
 	init: 	function(){
-		KillKat.loadStaticFiles();
-			alert('Ready to kill kitten !');
-       	KillKat.initImgList();
-        alert("Ready to kill katz !");
+        if (confirm("Ready to kill Katz ??"))
+        {
+            KillKat.loadStaticFiles();
+            KillKat.initImagesHandler();
+        }
 	},
     sound: null,
     domImgs : [],
@@ -15,6 +16,9 @@ var KillKat =
 	IMG_MIN_HEIGHT : 100,
 	KILL_TAG: 'killkat-shot',
     OVERLAY_TAG: 'killkat-overlay',
+    requirements: {
+        'min-dimensions' : function(img){ return ((img.width * img.height) > (KillKat.IMG_MIN_WIDTH * KillKat.IMG_MIN_HEIGHT)); }
+    },
 
     loadStaticFiles: function()
     {
@@ -24,12 +28,7 @@ var KillKat =
         stylesheet.type = 'text/css';
         document.getElementsByTagName('head')[0].appendChild(stylesheet);
     },
-
-	requirements: {
-		'min-dimensions' : function(img){ return ((img.width * img.height) > (KillKat.IMG_MIN_WIDTH * KillKat.IMG_MIN_HEIGHT)); }
-	},
-
-	initImgList : function()
+	initImagesHandler : function()
 	{
         KillKat.domImgs = jq('img');
         KillKat.domImgs.each(
@@ -118,7 +117,7 @@ var KillKat =
             KillKat.playSound();
         }
     },
-	
+
 	isKatKilled: function(jqImg)
 	{
 		return (jqImg.parent().hasClass(KillKat.KILL_TAG));
