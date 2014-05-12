@@ -4,8 +4,14 @@ var KillKat =
 {
 	init: 	function(){
 		
-     	var cssLink = jq("<link rel='stylesheet' type='text/css' href='//raw.githubusercontent.com/jorisgrouillet/killkat/master/css/killkat.css'>");
-     	jq("head").append(cssLink);
+     	//var cssLink = jq("<link rel='stylesheet' type='text/css' href='//raw.githubusercontent.com/jorisgrouillet/killkat/master/css/killkat.css'>");
+     	//jq("head").append(cssLink);
+
+        var stylesheet = document.createElement('link');
+        stylesheet.href = '//raw.githubusercontent.com/jorisgrouillet/killkat/master/css/killkat.css';
+        stylesheet.rel = 'stylesheet';
+        stylesheet.type = 'text/css';
+        document.getElementsByTagName('head')[0].appendChild(stylesheet);
 
 		KillKat.initCollection();
 	},
@@ -69,7 +75,6 @@ var KillKat =
 	addToListImgs: function(domImg)
 	{
 		jqImg = KillKat.overrideClickEvent(domImg);
-		console.log('img : ', domImg);
 		KillKat.listImgs.push(jqImg);
 	},
 
@@ -84,11 +89,11 @@ var KillKat =
 	{
 		return function(e){
             e.preventDefault();
-			KillKat.handleTargetAppearance(this);
+			KillKat.addOverlayToTarget(this);
 			return false;
 		};
 	},
-	handleTargetAppearance: function(domImg)
+	addOverlayToTarget: function(domImg)
 	{
 		jqImg = jq(domImg);
 		if (! KillKat.isKatKilled(jqImg)){
@@ -150,7 +155,7 @@ var KillKat =
         document.getElementsByTagName("head")[0].appendChild(script);
     }
 
-    loadScript("https://ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.min.js", function () {
+    loadScript("//ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.min.js", function () {
 
          //jQuery loaded
          console.log('jquery loaded');
