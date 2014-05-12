@@ -16,6 +16,7 @@ var KillKat =
 	IMG_MIN_HEIGHT : 100,
 	KILL_TAG: 'killkat-shot',
     OVERLAY_TAG: 'killkat-overlay',
+    GITHUB : "https://rawgit.com/jorisgrouillet/killkat/master",
     requirements: {
         'min-dimensions' : function(img){ return ((img.width * img.height) > (KillKat.IMG_MIN_WIDTH * KillKat.IMG_MIN_HEIGHT)); }
     },
@@ -23,7 +24,7 @@ var KillKat =
     loadStaticFiles: function()
     {
         var stylesheet = document.createElement('link');
-        stylesheet.href = 'https://rawgit.com/jorisgrouillet/killkat/master/css/killkat.css';
+        stylesheet.href = KillKat.GITHUB+'/css/killkat.css';
         stylesheet.rel = 'stylesheet';
         stylesheet.type = 'text/css';
         document.getElementsByTagName('head')[0].appendChild(stylesheet);
@@ -139,7 +140,7 @@ var KillKat =
         if (! jq('#killkat-sound').length)
         {
             var sound = jq('<audio id="killkat-sound" preload="auto" autoplay>'+
-                '<source src="https://rawgit.com/jorisgrouillet/killkat/master/audio/splatter-sound.mp3" type="audio/mp3" />'+
+                '<source src="'+KillKat.GITHUB+'/audio/splatter-sound.mp3" type="audio/mp3" />'+
                             //'<source src="http://www.freesfx.co.uk/rx2/mp3s/2/1871_1272479313.mp3" type="audio/mp3" />'+
                             'Votre navigateur n\'est pas compatible'+
                             '</audio>');
