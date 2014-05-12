@@ -3,10 +3,10 @@ var jq = null;
 var KillKat = 
 {
 	init: 	function(){
-		KillKat.loadStaticFiles();
-       	KillKat.initImgList();
-        console.log('Killkat.init DONE');
-	},
+			KillKat.loadStaticFiles();
+			alert('Ready to kill kitten !');
+       		KillKat.initImgList();
+        },
     sound: null,
     domImgs : [],
     listImgs : [],
