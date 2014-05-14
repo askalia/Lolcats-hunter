@@ -1,16 +1,20 @@
-.killkat-target {
-    cursor: url(https://cdn1.iconfinder.com/data/icons/32x32-free-design-icons/32/Target1.png), crosshair;
-}
+
 .killkat-overlay {
     position: relative;
     opacity: .90;
     display: inline-block;
     pointer-events:none;
-    background-size : 100%;
     background-repeat: no-repeat;
     background-position: center center;
-    background-image: url(https://rawgit.com/jorisgrouillet/killkat/master/img/bloodsplatter.png);
+    background-size : 100%;
+    cursor: url(https://cdn1.iconfinder.com/data/icons/32x32-free-design-icons/32/Target1.png), crosshair;
     z-index: 1;
+}
+.killkat-overlay-target:hover{
+    background-image: url(https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcRDh-62GcQBLWrGDT2kxUpYSM24FU_Re4Nm9CkgJjk9DC0E79vy6A8hPQ);
+}
+.killkat-overlay-splatter{
+    background-image: url(https://rawgit.com/jorisgrouillet/killkat/master/img/bloodsplatter.png);
 }
 
 .killkat-icon-killable {
@@ -24,8 +28,4 @@
     background-size: 14px 15px;
     border-radius: 50%;
     box-shadow: 1px 1px 1px #ddd;
-}
-.killkat-target:hover{
-    background: url(https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcRDh-62GcQBLWrGDT2kxUpYSM24FU_Re4Nm9CkgJjk9DC0E79vy6A8hPQ) no-repeat center center;
-    z-index: 2;
 }
