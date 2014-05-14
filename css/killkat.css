@@ -2,9 +2,9 @@
     cursor: url(https://cdn1.iconfinder.com/data/icons/32x32-free-design-icons/32/Target1.png), crosshair;
 }
 .killkat-overlay {
-    position: absolute;
-    float: left;
+    position: relative;
     opacity: .90;
+    display: inline-block;
     pointer-events:none;
     background-size : 100%;
     background-repeat: no-repeat;
@@ -20,7 +20,7 @@
     border: 1px solid rgba(0, 0, 0, 0.2);
     position: absolute;
     float: left;
-    background: #fbdcdc url(https://rawgit.com/jorisgrouillet/killkat/master/img/icon-killable.png) no-repeat center center;
+    background: rgb(254, 0, 0) url(https://rawgit.com/jorisgrouillet/killkat/master/img/icon-killable.png) no-repeat center center;
     background-size: 14px 15px;
     border-radius: 50%;
     box-shadow: 1px 1px 1px #ddd;
