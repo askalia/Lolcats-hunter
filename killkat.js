@@ -10,6 +10,8 @@ var KillKat =
             KillKat.setSoundPlayer();
         }
 	},
+    currentImg: null,
+    currentImgIndex: -1,
     sound: null,
     domImgs : [],
     listImgs : [],
@@ -44,15 +46,27 @@ var KillKat =
         KillKat.domImgs.each(
 			function(idx, domImg){
 				KillKat.filterImg(domImg);
-
-			}
+            }
 		);
+        KillKat.razCurrentImg();
 	},
-
+    razCurrentImg: function()
+    {
+        KillKat.currentImg = null;
+        KillKat.currentImgIndex = -1;
+    },
+    setCurrentImg: function(jqImg)
+    {
+        KillKat.currentImg = jqImg;
+        KillKat.currentImgIndex = KillKat.getImgIndex();
+    },
 	filterImg : function(domImg)
 	{
-		if (KillKat.meetRequirements(domImg)){
-			KillKat.addToListImgs(domImg);	
+        if (KillKat.meetRequirements(domImg))
+        {
+            KillKat.currentImg = null;
+            KillKat.setCurrentImg(jQuery(domImg));
+            KillKat.setImageBehaviour();
 		}
 	},
 
@@ -67,48 +81,53 @@ var KillKat =
 		}
 		return (validateReqs===1);
 	},
-	
-	addToListImgs: function(domImg)
+
+    setImageId: function(){
+        if (typeof(KillKat.currentImg.get(0).id) =='undefined'){
+            KillKat.currentImg.attr('id', 'killable-img-'+KillKat.currentImgIndex);
+        }
+    },
+	setImageBehaviour: function()
 	{
-		jqImg = KillKat.overrideClickEvent(domImg);
-		KillKat.listImgs.push(jqImg);
+        KillKat.setImageId();
+        KillKat.overrideClickEvent();
+        KillKat.setMousePointerStyle();
 	},
 
-	overrideClickEvent: function(domImg)
+	overrideClickEvent: function()
 	{
-		var jqImg = jQuery(domImg);
 		var fct = KillKat.getClickEventFunction();
-		jqImg.unbind('click').click(fct);
-        KillKat.setIconKillable(jqImg, KillKat.getImgIndex(jqImg));
-		return jqImg;
+		KillKat.currentImg.unbind('click').click(fct);
+        KillKat.setIconKillable();
 	},
 	getClickEventFunction: function()
 	{
 		return function(e){
             e.preventDefault();
-			KillKat.handleTarget(this);
+            KillKat.razCurrentImg();
+            KillKat.setCurrentImg(jQuery(this));
+            KillKat.handleTarget(KillKat.currentImg);
             KillKat.convertImgToBase64(this.src, function(dataUrl){
                 console.log(dataUrl);
             });
 			return false;
 		};
 	},
-	handleTarget: function(domImg)
+	handleTarget: function(jqImg)
 	{
-		var jqImg = jQuery(domImg);
-        KillKat.setOverlay(jqImg, KillKat.getImgIndex(jqImg));
+		KillKat.setOverlay(jqImg, KillKat.currentImgIndex);
     },
-    setOverlay: function(jqImg, imgIndex)
+    setOverlay: function()
     {
-        var domOverlay = jQuery('#killkat-tag-'+imgIndex);
+        var domOverlay = jQuery('#killkat-tag-'+KillKat.currentImgIndex);
 
         if (! domOverlay.length)
         {
-            domOverlay = jQuery('<div class="'+KillKat.OVERLAY_TAG+'" id="killkat-tag-'+imgIndex+'"></div>')
-                            .css({  'width' : jqImg.innerWidth(),
-                                    'height' : jqImg.innerHeight(),
-                                    'top' : jqImg.offset().top,
-                                    'left' : jqImg.offset().left,
+            domOverlay = jQuery('<div class="'+KillKat.OVERLAY_TAG+'" id="killkat-tag-'+KillKat.currentImgIndex+'"></div>')
+                            .css({  'width' : KillKat.currentImg.innerWidth(),
+                                    'height' : KillKat.currentImg.innerHeight(),
+                                    'top' : KillKat.currentImg.offset().top,
+                                    'left' : KillKat.currentImg.offset().left,
                                 })
                             .appendTo(jQuery('body'));
 
@@ -124,18 +143,22 @@ var KillKat =
             KillKat.playSound();
         }
     },
-    setIconKillable: function(jqImg, imgIndex) {
+    setIconKillable: function() {
 
-        var domIconKillable = jQuery('#killkat-killable-'+imgIndex);
+        var domIconKillable = jQuery('#killkat-killable-'+KillKat.currentImgIndex);
         if (! domIconKillable.length)
         {
-            jQuery('<div class="'+KillKat.KILLABLE_TAG+'" id="killkat-killable-'+imgIndex+'"></div>')
+            jQuery('<div class="'+KillKat.KILLABLE_TAG+'" id="killkat-icon-killable-'+KillKat.currentImgIndex+'"></div>')
                 .css({
-                    'top' : (jqImg.offset().top - (parseInt(KillKat.icons.iconKillable.height)/2)),
-                    'left' : (jqImg.width() + jqImg.offset().left - parseInt(KillKat.icons.iconKillable.width)/2),
+                    'top' : (KillKat.currentImg.offset().top - (parseInt(KillKat.icons.iconKillable.height)/2)),
+                    'left' : (KillKat.currentImg.width() + KillKat.currentImg.offset().left - parseInt(KillKat.icons.iconKillable.width)/2),
                 })
                 .appendTo(jQuery('body'));
         }
+    },
+    setMousePointerStyle: function()
+    {
+        KillKat.currentImg.addClass('killkat-target');
     },
 
 	isKatKilled: function(jqImg)
@@ -143,9 +166,9 @@ var KillKat =
 		return (jqImg.parent().hasClass(KillKat.KILL_TAG));
 	},
 
-    getImgIndex : function(jqImg)
+    getImgIndex : function()
     {
-        return KillKat.domImgs.index(jqImg);
+        return KillKat.domImgs.index(KillKat.currentImg);
     },
     playSound : function()
     {
