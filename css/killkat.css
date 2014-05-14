@@ -2,6 +2,7 @@
 .killkat-overlay {
     position: relative;
     opacity: .90;
+    background-color: #00FFFF;
     display: inline-block;
     pointer-events:none;
     background-repeat: no-repeat;
