@@ -10,7 +10,7 @@
     cursor: url(https://cdn1.iconfinder.com/data/icons/32x32-free-design-icons/32/Target1.png), crosshair;
     z-index: 1;
 }
-.killkat-overlay:hover{
+.killkat-overlay-target:hover{
     background-image: url(https://rawgit.com/jorisgrouillet/killkat/master/img/target.png);
 }
 .killkat-overlay-splatter{
