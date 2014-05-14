@@ -7,11 +7,11 @@
     background-repeat: no-repeat;
     background-position: center center;
     background-size : 100%;
-    cursor: url(https://cdn1.iconfinder.com/data/icons/32x32-free-design-icons/32/Target1.png), crosshair, auto;
+    cursor: url(https://cdn1.iconfinder.com/data/icons/32x32-free-design-icons/32/Target1.png), crosshair;
     z-index: 1;
 }
 .killkat-overlay:hover{
-    background-image: url(https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcRDh-62GcQBLWrGDT2kxUpYSM24FU_Re4Nm9CkgJjk9DC0E79vy6A8hPQ);
+    background-image: url(https://rawgit.com/jorisgrouillet/killkat/master/img/target.png);
 }
 .killkat-overlay-splatter{
     background-image: url(https://rawgit.com/jorisgrouillet/killkat/master/img/bloodsplatter.png);
