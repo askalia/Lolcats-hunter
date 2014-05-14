@@ -1,4 +1,6 @@
-
+.killkat-target {
+    cursor: crosshair;
+}
 .killkat-overlay {
     position: absolute;
     float: left;
