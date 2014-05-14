@@ -18,7 +18,7 @@
     position: absolute;
     float: left;
     background: #fbdcdc url(https://rawgit.com/jorisgrouillet/killkat/master/img/icon-killable.png) no-repeat center center;
-    background-size: 20px 20px;
+    background-size: 14px 15px;
     border-radius: 50%;
     box-shadow: 1px 1px 1px #ddd;
 }
