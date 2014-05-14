@@ -7,16 +7,25 @@ var KillKat =
         {
             KillKat.loadStaticFiles();
             KillKat.initImagesHandler();
+            KillKat.setSoundPlayer();
         }
 	},
     sound: null,
     domImgs : [],
     listImgs : [],
+    icons: {
+       iconKillable: {
+            width: '20px',
+            height: '20px'
+       }
+    },
 	IMG_MIN_WIDTH : 100,
 	IMG_MIN_HEIGHT : 100,
 	KILL_TAG: 'killkat-shot',
     OVERLAY_TAG: 'killkat-overlay',
+    KILLABLE_TAG : 'killkat-icon-killable',
     GITHUB : "https://rawgit.com/jorisgrouillet/killkat/master",
+
     requirements: {
         'min-dimensions' : function(img){ return ((img.width * img.height) > (KillKat.IMG_MIN_WIDTH * KillKat.IMG_MIN_HEIGHT)); }
     },
@@ -31,7 +40,7 @@ var KillKat =
     },
 	initImagesHandler : function()
 	{
-        KillKat.domImgs = jq('img');
+        KillKat.domImgs = jQuery('img');
         KillKat.domImgs.each(
 			function(idx, domImg){
 				KillKat.filterImg(domImg);
@@ -67,9 +76,10 @@ var KillKat =
 
 	overrideClickEvent: function(domImg)
 	{
-		var jqImg = jq(domImg);
+		var jqImg = jQuery(domImg);
 		var fct = KillKat.getClickEventFunction();
 		jqImg.unbind('click').click(fct);
+        KillKat.setIconKillable(jqImg, KillKat.getImgIndex(jqImg));
 		return jqImg;
 	},
 	getClickEventFunction: function()
@@ -85,26 +95,22 @@ var KillKat =
 	},
 	handleTarget: function(domImg)
 	{
-		var jqImg = jq(domImg);
-        KillKat.setOverlay(jqImg);
-	},
-    setOverlay: function(jqImg)
+		var jqImg = jQuery(domImg);
+        KillKat.setOverlay(jqImg, KillKat.getImgIndex(jqImg));
+    },
+    setOverlay: function(jqImg, imgIndex)
     {
-        var imgContainer = jqImg.closest('div');
-        //imgContainer.css('z-index', 99);
-        var imgIndex = (KillKat.getImgIndex(jqImg)).toString();
-        var domOverlay = jq('#killkat-tag-'+imgIndex);
+        var domOverlay = jQuery('#killkat-tag-'+imgIndex);
 
         if (! domOverlay.length)
         {
-            domOverlay = jq('<div class="'+KillKat.OVERLAY_TAG+'" id="killkat-tag-'+KillKat.getImgIndex(jqImg)+'"></div>')
+            domOverlay = jQuery('<div class="'+KillKat.OVERLAY_TAG+'" id="killkat-tag-'+imgIndex+'"></div>')
                             .css({  'width' : jqImg.innerWidth(),
                                     'height' : jqImg.innerHeight(),
                                     'top' : jqImg.offset().top,
                                     'left' : jqImg.offset().left,
-                                    'z-index': 1
                                 })
-                            .appendTo(jq('body'));
+                            .appendTo(jQuery('body'));
 
             KillKat.playSound();
             return;
@@ -116,6 +122,19 @@ var KillKat =
         else{
             domOverlay.show();
             KillKat.playSound();
+        }
+    },
+    setIconKillable: function(jqImg, imgIndex) {
+
+        var domIconKillable = jQuery('#killkat-killable-'+imgIndex);
+        if (! domIconKillable.length)
+        {
+            jQuery('<div class="'+KillKat.KILLABLE_TAG+'" id="killkat-killable-'+imgIndex+'"></div>')
+                .css({
+                    'top' : (jqImg.offset().top - (parseInt(KillKat.icons.iconKillable.height)/2)),
+                    'left' : (jqImg.width() + jqImg.offset().left - parseInt(KillKat.icons.iconKillable.width)/2),
+                })
+                .appendTo(jQuery('body'));
         }
     },
 
@@ -130,22 +149,22 @@ var KillKat =
     },
     playSound : function()
     {
-        if (! jq('#killkat-sound').length){
+        if (! jQuery('#killkat-sound').length){
             KillKat.setSoundPlayer();
         }
         KillKat.sound.play();
     },
     setSoundPlayer: function()
     {
-        if (! jq('#killkat-sound').length)
+        if (! jQuery('#killkat-sound').length)
         {
-            var sound = jq('<audio id="killkat-sound" preload="auto" autoplay>'+
+            var sound = jQuery('<audio id="killkat-sound" preload="auto">'+
                 '<source src="'+KillKat.GITHUB+'/audio/splatter-sound.mp3" type="audio/mp3" />'+
                             //'<source src="http://www.freesfx.co.uk/rx2/mp3s/2/1871_1272479313.mp3" type="audio/mp3" />'+
                             'Votre navigateur n\'est pas compatible'+
                             '</audio>');
 
-            jq('body').append(sound);
+            jQuery('body').append(sound);
             KillKat.sound = sound.get(0);
         }
     },
