@@ -2,7 +2,7 @@
 .killkat-overlay {
     position: relative;
     opacity: .90;
-    background-color: #00FFFF;
+
     display: inline-block;
     pointer-events:none;
     background-repeat: no-repeat;
@@ -10,6 +10,9 @@
     background-size : 100%;
     cursor: url(https://cdn1.iconfinder.com/data/icons/32x32-free-design-icons/32/Target1.png), crosshair;
     z-index: 1;
+}
+.killkat-overlay:hover{
+    background-color: #ff0000;
 }
 .killkat-overlay-target:hover{
     background-image: url(https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcRDh-62GcQBLWrGDT2kxUpYSM24FU_Re4Nm9CkgJjk9DC0E79vy6A8hPQ);
