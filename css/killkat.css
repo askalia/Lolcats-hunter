@@ -11,8 +11,8 @@
 }
 
 .killkat-icon-killable {
-    width: 30px;
-    height: 30px;
+    width: 20px;
+    height: 20px;
     z-index: 1;
     border: 1px solid rgba(0, 0, 0, 0.2);
     position: absolute;
