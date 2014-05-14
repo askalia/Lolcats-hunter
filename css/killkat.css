@@ -2,7 +2,6 @@
 .killkat-overlay {
     position: relative;
     opacity: .30;
-    background-color: #0000ff;
     display: inline-block;
     /*pointer-events:none*/
     background-repeat: no-repeat;
@@ -12,7 +11,6 @@
     z-index: 1;
 }
 .killkat-overlay:hover{
-    background-color: #ff0000;
     background-image: url(https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcRDh-62GcQBLWrGDT2kxUpYSM24FU_Re4Nm9CkgJjk9DC0E79vy6A8hPQ);
 }
 .killkat-overlay-splatter{
