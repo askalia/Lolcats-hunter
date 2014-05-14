@@ -8,6 +8,7 @@
     background-repeat: no-repeat;
     background-position: center center;
     background-image: url(https://rawgit.com/jorisgrouillet/killkat/master/img/bloodsplatter.png);
+    z-index: 1;
 }
 
 .killkat-icon-killable {
