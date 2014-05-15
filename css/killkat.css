@@ -9,16 +9,17 @@
     background-size : 100%;
     cursor: url(https://cdn1.iconfinder.com/data/icons/32x32-free-design-icons/32/Target1.png), crosshair;
     z-index: 1;
-    transition: opacity 0.5s;
+    /*transition: opacity 0.5s;
     -wekbit-transition: opacity 0.5s;
     -moz-transition: opacity 0.5s;
     -o-transition: opacity 0.5s;
     -ms-transition: opacity 0.5s;
+    */
 
 }
 .killkat-overlay-target:hover{
     background-image: url(https://rawgit.com/jorisgrouillet/killkat/master/img/target.png);
-    opacity: .8;
+    /*opacity: .8;*/
 }
 .killkat-overlay-splatter{
     background-image: url(https://rawgit.com/jorisgrouillet/killkat/master/img/bloodsplatter.png);
