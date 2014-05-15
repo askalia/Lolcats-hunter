@@ -18,11 +18,11 @@
 
 }
 .killkat-overlay-target:hover{
-    background-image: url(https://rawgit.com/jorisgrouillet/killkat/master/img/target.png);
+    background-image: url(https://cdn.rawgit.com/jorisgrouillet/killkat/master/img/target.png);
     /*opacity: .8;*/
 }
 .killkat-overlay-splatter{
-    background-image: url(https://rawgit.com/jorisgrouillet/killkat/master/img/bloodsplatter.png);
+    background-image: url(https://cdn.rawgit.com/jorisgrouillet/killkat/master/img/bloodsplatter.png);
 }
 
 .killkat-icon-killable {
@@ -32,7 +32,7 @@
     height: 20px;
     z-index: 1;
     border: 1px solid rgba(0, 0, 0, 0.2);
-    background: rgb(254, 0, 0) url(https://rawgit.com/jorisgrouillet/killkat/master/img/icon-killable.png) no-repeat center center;
+    background: rgb(254, 0, 0) url(https://cdn.rawgit.com/jorisgrouillet/killkat/master/img/icon-killable.png) no-repeat center center;
     background-size: 14px 15px;
     border-radius: 50%;
     box-shadow: 1px 1px 1px #ddd;
