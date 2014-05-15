@@ -1,7 +1,7 @@
 
 .killkat-overlay {
     position: relative;
-    opacity: .30;
+    opacity: .70;
     display: inline-block;
     /*pointer-events:none*/
     background-repeat: no-repeat;
@@ -11,7 +11,7 @@
     z-index: 1;
 }
 .killkat-overlay-target:hover{
-    background-image: url(https://rawgit.com/jorisgrouillet/killkat/master/img/target.png);
+    background-image: url(https://rawgit.com/jorisgrouillet/killkat/master/img/target.jpg);
 }
 .killkat-overlay-splatter{
     background-image: url(https://rawgit.com/jorisgrouillet/killkat/master/img/bloodsplatter.png);
