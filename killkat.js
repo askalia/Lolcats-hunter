@@ -32,8 +32,8 @@ var KillKat =
         KILLED_CLASS : 'killkat-overlay-splatter',
         TARGET_CLASS : 'killkat-overlay-target'
     },
-    //GITHUB : 'https://cdn.rawgit.com/jorisgrouillet/killkat/master',
-    GITHUB : 'http://sandbox.local/killkat/',
+    GITHUB : 'https://cdn.rawgit.com/jorisgrouillet/killkat/master',
+    //GITHUB : 'http://sandbox.local/killkat/',
 
     requirements: {
         'min-dimensions' : function(domImg){ return ((domImg.width * domImg.height) > (parseInt(KillKat.rules.IMG_MIN_WIDTH) * parseInt(KillKat.rules.IMG_MIN_HEIGHT))); }
