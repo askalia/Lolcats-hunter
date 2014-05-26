@@ -1,44 +1,80 @@
-
-var jq = null;
-var KillKat = 
+var KillKat =
 {
 	init: 	function(){
-        if (confirm("Ready to kill Katz ??"))
-        {
-            KillKat.loadStaticFiles();
-            KillKat.initImagesHandler();
-            KillKat.setSoundPlayer();
-        }
+        //if (confirm("Ready to kill Katz ??"))
+        //{
+            KillKat.staticFiles.load(function(){
+                KillKat.initImagesHandler();
+                KillKat.setSoundPlayer();
+            });
+        //}
 	},
     currentImg: null,
     currentImgIndex: -1,
+    currentOverlay: null,
     sound: null,
     domImgs : [],
     listImgs : [],
     icons: {
        iconKillable: {
             width: '20px',
-            height: '20px'
+            height: '20px',
+            marginRight: '5px'
        }
     },
-	IMG_MIN_WIDTH : 100,
-	IMG_MIN_HEIGHT : 100,
-	KILL_TAG: 'killkat-shot',
-    OVERLAY_TAG: 'killkat-overlay',
-    KILLABLE_TAG : 'killkat-icon-killable',
-    GITHUB : "https://rawgit.com/jorisgrouillet/killkat/master",
+    rules : {
+        IMG_MIN_WIDTH : '100px',
+        IMG_MIN_HEIGHT : '100px'
+    },
+    styles :{
+        OVERLAY_CLASS: 'killkat-overlay',
+        KILLABLE_CLASS : 'killkat-icon-killable',
+        KILLED_CLASS : 'killkat-overlay-splatter',
+        TARGET_CLASS : 'killkat-overlay-target'
+    },
+    //GITHUB : 'https://cdn.rawgit.com/jorisgrouillet/killkat/master',
+    GITHUB : 'http://sandbox.local/killkat/',
 
     requirements: {
-        'min-dimensions' : function(img){ return ((img.width * img.height) > (KillKat.IMG_MIN_WIDTH * KillKat.IMG_MIN_HEIGHT)); }
+        'min-dimensions' : function(domImg){ return ((domImg.width * domImg.height) > (parseInt(KillKat.rules.IMG_MIN_WIDTH) * parseInt(KillKat.rules.IMG_MIN_HEIGHT))); }
     },
 
-    loadStaticFiles: function()
-    {
-        var stylesheet = document.createElement('link');
-        stylesheet.href = KillKat.GITHUB+'/css/killkat.css';
-        stylesheet.rel = 'stylesheet';
-        stylesheet.type = 'text/css';
-        document.getElementsByTagName('head')[0].appendChild(stylesheet);
+    staticFiles: {
+        load : function(callback){
+            KillKat.staticFiles.loadStyles();
+            KillKat.staticFiles.loadJS(callback);
+        },
+        loadStyles: function()
+        {
+            var stylesheet = document.createElement('link');
+            stylesheet.href = KillKat.GITHUB+'/css/killkat.css';
+            stylesheet.rel = 'stylesheet';
+            stylesheet.type = 'text/css';
+            document.getElementsByTagName('head')[0].appendChild(stylesheet);
+
+            var stylesheet = document.createElement('link');
+            stylesheet.href = '//ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/themes/smoothness/jquery-ui.css';
+            stylesheet.rel = 'stylesheet';
+            stylesheet.type = 'text/css';
+            document.getElementsByTagName('head')[0].appendChild(stylesheet);
+
+
+        },
+        loadJS : function(callback){
+
+            KillKat.loadJavascriptFile('//cdnjs.cloudflare.com/ajax/libs/require.js/2.1.11/require.min.js', function()
+            {
+                require(
+                    {   paths: {
+                        'jquery': '//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min',
+                        'jquery-ui' : '//ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/jquery-ui.min',
+                        'jquery-transform': '//rawgit.com/louisremi/jquery.transform.js/master/jquery.transform2d',
+                        'jquery-viewport' : 'http://www.appelsiini.net/download/jquery.viewport.mini',
+
+                    }
+                    }, ['jquery', 'jquery-ui', 'jquery-transform', 'jquery-viewport'], function(){ callback.call(this); });
+              });
+        }
     },
 	initImagesHandler : function()
 	{
@@ -54,24 +90,33 @@ var KillKat =
     {
         KillKat.currentImg = null;
         KillKat.currentImgIndex = -1;
+        KillKat.currentOverlay = null;
     },
-    setCurrentImg: function(jqImg)
+    setCurrentImg: function(domImg)
     {
-        KillKat.currentImg = jqImg;
+        if (domImg.tagName.toLowerCase() =='div'){
+            domImg = jQuery(domImg).parent().find('img:eq(0)').get(0);
+        }
+        KillKat.currentImg = jQuery(domImg);
         KillKat.currentImgIndex = KillKat.getImgIndex();
+        if (KillKat.currentImgIndex > -1){
+            KillKat.currentOverlay = jQuery('#killkat-overlay-'+KillKat.currentImgIndex);
+        }
+
     },
+
 	filterImg : function(domImg)
 	{
         if (KillKat.meetRequirements(domImg))
         {
             KillKat.currentImg = null;
-            KillKat.setCurrentImg(jQuery(domImg));
+            KillKat.setCurrentImg(domImg);
             KillKat.setImageBehaviour();
 		}
 	},
 
 	meetRequirements : function(domImg)
-	{	
+	{
 		var reqs = KillKat.requirements || [];
 		var validateReqs = true;
 		for (var rIdx in reqs){
@@ -90,14 +135,33 @@ var KillKat =
 	setImageBehaviour: function()
 	{
         KillKat.setImageId();
-        KillKat.overrideClickEvent();
-        KillKat.setMousePointerStyle();
+        var overlay = KillKat.setOverlay();
+        KillKat.overrideClickEvent(overlay);
 	},
+    setOverlay: function()
+    {
+        var domOverlay = KillKat.currentOverlay;
 
-	overrideClickEvent: function()
+        if (! domOverlay.length)
+        {
+            domOverlay = jQuery('<div class="'+KillKat.styles.OVERLAY_CLASS+' '+KillKat.styles.TARGET_CLASS+'" id="killkat-overlay-'+KillKat.currentImgIndex+'"></div>')
+                .css({  'width' : KillKat.currentImg.innerWidth()+'px',
+                    'height' : KillKat.currentImg.innerHeight()+'px',
+                    'left' : (KillKat.currentImg.outerWidth()/4)+'px',
+                    'z-index' : 1
+                })
+                //.insertAfter(KillKat.currentImg.parent());
+                .insertBefore(KillKat.currentImg);
+                   KillKat.currentImg.closest('a').css({ position : 'relative'});
+
+            return domOverlay;
+        }
+    },
+    overrideClickEvent: function(target)
 	{
 		var fct = KillKat.getClickEventFunction();
-		KillKat.currentImg.unbind('click').click(fct);
+		//KillKat.currentImg.unbind('click').click(fct);
+        target.click(fct);
         KillKat.setIconKillable();
 	},
 	getClickEventFunction: function()
@@ -105,65 +169,78 @@ var KillKat =
 		return function(e){
             e.preventDefault();
             KillKat.razCurrentImg();
-            KillKat.setCurrentImg(jQuery(this));
-            KillKat.handleTarget(KillKat.currentImg);
-            KillKat.convertImgToBase64(this.src, function(dataUrl){
-                console.log(dataUrl);
-            });
+            KillKat.setCurrentImg(this);
+            KillKat.handleTarget();
+
 			return false;
 		};
 	},
-	handleTarget: function(jqImg)
+	handleTarget: function()
 	{
-		KillKat.setOverlay(jqImg, KillKat.currentImgIndex);
+        KillKat.toggleSplatter();
     },
-    setOverlay: function()
+
+    toggleSplatter: function(pos)
     {
-        var domOverlay = jQuery('#killkat-tag-'+KillKat.currentImgIndex);
-
-        if (! domOverlay.length)
-        {
-            domOverlay = jQuery('<div class="'+KillKat.OVERLAY_TAG+'" id="killkat-tag-'+KillKat.currentImgIndex+'"></div>')
-                            .css({  'width' : KillKat.currentImg.innerWidth(),
-                                    'height' : KillKat.currentImg.innerHeight(),
-                                    'top' : KillKat.currentImg.offset().top,
-                                    'left' : KillKat.currentImg.offset().left,
-                                })
-                            .appendTo(jQuery('body'));
-
+        if (! KillKat.currentOverlay.hasClass(KillKat.styles.KILLED_CLASS)){
+            KillKat.removeSprite('target');
             KillKat.playSound();
-            return;
-        }
-
-        if (domOverlay.is(':visible')){
-            domOverlay.fadeOut(1000);
-        }
-        else{
-            domOverlay.show();
-            KillKat.playSound();
+            KillKat.applyVisualEffect();
         }
     },
-    setIconKillable: function() {
+    removeSprite : function(type)
+    {
+        KillKat.currentOverlay.addClass(KillKat.styles.KILLED_CLASS)
+                             .removeClass(KillKat.styles.TARGET_CLASS);
+    },
+    applyVisualEffect : function()
+    {
+        KillKat.currentOverlay.fadeOut(1200);
+        KillKat.currentImg
+            .css({position :'relative'})
+            .slideToggle(
+            {    easing: 'easeOutExpo',
+                duration: 300,
+                complete: function()
+                {
+                    jQuery(this).slideToggle(
+                        {
+                            easing: 'easeOutExpo',
+                            duration: 300,
+                            complete : function(){
+                                jQuery(this).animate({
+                                    top: '+=800px'
+                                }, 2000, 'swing').fadeOut(function(){ jQuery(this).remove();});
+                            }
+                        });
+                }
+            });
 
-        var domIconKillable = jQuery('#killkat-killable-'+KillKat.currentImgIndex);
+    },
+    setIconKillable: function()
+    {
+        var domIconKillable = jQuery('#'+KillKat.styles.KILLABLE_CLASS+'-'+KillKat.currentImgIndex);
         if (! domIconKillable.length)
         {
-            jQuery('<div class="'+KillKat.KILLABLE_TAG+'" id="killkat-icon-killable-'+KillKat.currentImgIndex+'"></div>')
+            jQuery('<div class="'+KillKat.styles.KILLABLE_CLASS+'" id="killkat-icon-killable-'+KillKat.currentImgIndex+'"></div>')
                 .css({
-                    'top' : (KillKat.currentImg.offset().top - (parseInt(KillKat.icons.iconKillable.height)/2)),
-                    'left' : (KillKat.currentImg.width() + KillKat.currentImg.offset().left - parseInt(KillKat.icons.iconKillable.width)/2),
+                    'top' : 0,
+                    'left' : (KillKat.currentImg.outerWidth() +
+                             (parseInt(KillKat.icons.iconKillable.width)*1.5) +
+                             (parseInt(KillKat.icons.iconKillable.marginRight))) +'px'
                 })
-                .appendTo(jQuery('body'));
+                .appendTo(KillKat.currentImg.parent());
         }
     },
-    setMousePointerStyle: function()
-    {
-        KillKat.currentImg.addClass('killkat-target');
+    highlightKillables: function(){
+        jQuery('.'+KillKat.styles.KILLABLE_CLASS+':in-viewport')
+            .animate({ 'transform' : 'scale(2)'}, 700, function(){ console.log('bla'); } )
+            .animate({ 'transform' : 'scale(1)'}, 700, function(){ console.log('bla'); } );
     },
 
 	isKatKilled: function(jqImg)
 	{
-		return (jqImg.parent().hasClass(KillKat.KILL_TAG));
+		return (jqImg.parent().hasClass(KillKat.styles.KILLED_CLASS));
 	},
 
     getImgIndex : function()
@@ -203,46 +280,35 @@ var KillKat =
 	        ctx.drawImage(img,0,0);
 	        var dataURL = canvas.toDataURL(outputFormat || 'image/png');
 	        callback.call(this, dataURL);
-	        canvas = null; 
+	        canvas = null;
 	    };
 	    img.src = url;
-	}
+	},
+    loadJavascriptFile: function(url, callback)
+    {
+        var script = document.createElement("script")
+        script.type = "text/javascript";
+
+        if (script.readyState) { //IE
+            script.onreadystatechange = function () {
+                if (script.readyState == "loaded" || script.readyState == "complete") {
+                    script.onreadystatechange = null;
+                    if (callback) callback();
+                }
+            };
+        } else { //Others
+            script.onload = function () {
+                if (callback) callback();
+
+            };
+        }
+        script.src = url;
+        document.getElementsByTagName("head")[0].appendChild(script);
+    }
+
 };
 
+KillKat.init();
 
 
 
-(function (_callback) {
-
-    function loadScript(url, callback) {
-
-        var script = document.createElement("script")
-        script.type = "text/javascript";
-
-        if (script.readyState) { //IE
-            script.onreadystatechange = function () {
-                if (script.readyState == "loaded" || script.readyState == "complete") {
-                    script.onreadystatechange = null;
-                    callback();
-                }
-            };
-        } else { //Others
-            script.onload = function () {
-			jq = jQuery;
-                callback();
-            };
-        }
-
-        script.src = url;
-        document.getElementsByTagName("head")[0].appendChild(script);
-    }
-
-    loadScript("//ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.min.js", function () {
-
-         //jQuery loaded
-         console.log('jquery loaded');
-		 _callback.call(this);
-    });
-
-
-})( function(){  KillKat.init();});
