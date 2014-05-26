@@ -69,7 +69,7 @@ var KillKat =
                         'jquery': '//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min',
                         'jquery-ui' : '//ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/jquery-ui.min',
                         'jquery-transform': '//rawgit.com/louisremi/jquery.transform.js/master/jquery.transform2d',
-                        'jquery-viewport' : 'http://www.appelsiini.net/download/jquery.viewport.mini',
+                        'jquery-viewport' : KillKat.GITHUB+'/js/jquery.viewport.min',
 
                     }
                     }, ['jquery', 'jquery-ui', 'jquery-transform', 'jquery-viewport'], function(){ callback.call(this); });
@@ -195,7 +195,9 @@ var KillKat =
     },
     applyVisualEffect : function()
     {
+        // on efface le splatter
         KillKat.currentOverlay.fadeOut(1200);
+        // on applique l'effet d'image : flip et collapse
         KillKat.currentImg
             .css({position :'relative'})
             .slideToggle(
@@ -234,8 +236,8 @@ var KillKat =
     },
     highlightKillables: function(){
         jQuery('.'+KillKat.styles.KILLABLE_CLASS+':in-viewport')
-            .animate({ 'transform' : 'scale(2)'}, 700, function(){ console.log('bla'); } )
-            .animate({ 'transform' : 'scale(1)'}, 700, function(){ console.log('bla'); } );
+            .animate({ 'transform' : 'scale(2)'}, 700)
+            .animate({ 'transform' : 'scale(1)'}, 700);
     },
 
 	isKatKilled: function(jqImg)
