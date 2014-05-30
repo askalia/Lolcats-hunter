@@ -16,6 +16,7 @@
 .killkat-overlay-target:hover{
     background-image: url(https://cdn.rawgit.com/jorisgrouillet/killkat/master/img/target.png);
     opacity: .8;
+    background-size: 128px 118px;
 }
 .killkat-overlay-splatter{
     background-image: url(https://cdn.rawgit.com/jorisgrouillet/killkat/master/img/bloodsplatter.png);
@@ -24,8 +25,8 @@
 
 .killkat-icon-killable {
     position: absolute;
-    width: 20px;
-    height: 20px;
+    width: 30px;
+    height: 30px;
     z-index: 1;
     border: 1px solid rgba(0, 0, 0, 0.2);
     background: rgb(242, 222, 222) url(https://cdn.rawgit.com/jorisgrouillet/killkat/master/img/icon-killable.png) no-repeat center center;
